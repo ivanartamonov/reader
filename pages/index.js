@@ -1,28 +1,9 @@
 import Head from 'next/head'
-import {Button, Container, createTheme, CssBaseline, ThemeProvider} from "@mui/material";
+import {Container, CssBaseline, ThemeProvider} from "@mui/material";
 import ReaderAppBar from "../components/ReaderAppBar";
+import theme from "../config/Theme";
 
-export default function Home() {
-    const theme = createTheme({
-        palette: {
-            primary: {
-                main: '#9C1658',
-                dark: '#82174B'
-            },
-            secondary: {
-                main: '#666',
-            },
-            white: {
-                main: '#fff',
-                contrastText: '#444',
-            },
-            pale: {
-                main: '#FCF4D9',
-                contrastText: '#383838',
-            }
-        },
-    });
-
+export default function Home({readerData, chapterText}) {
   return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -33,14 +14,29 @@ export default function Home() {
             </Head>
 
             <main>
-                <ReaderAppBar />
+                <ReaderAppBar readerData={readerData} />
                 <Container>
-                    <h1>Глава 2. Рубиновый город</h1>
-                    <p>Тут должен быть текст главы</p>
-                    <Button variant="contained">Example button</Button>
+                    <h1>{readerData.chapter.title}</h1>
+                    <p>{chapterText}</p>
                 </Container>
             </main>
         </div>
       </ThemeProvider>
   )
+}
+
+export async function getStaticProps() {
+    const readerData = {
+        chapter: {
+            title: 'Глава 2. Рубиновый город'
+        },
+        bookUrl: 'https://dev.litnet.com/ru/book/disgardium-ugroza-a-klassa-b89465',
+    }
+
+    return {
+        props: {
+            readerData,
+            chapterText: 'Тут будет текст главы',
+        }
+    }
 }

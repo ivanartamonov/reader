@@ -3,7 +3,7 @@ import {AppBar, Box, IconButton, Toolbar, Typography} from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {BookmarkBorder, FormatListBulleted, MoreVert, Settings} from "@mui/icons-material";
 
-const ReaderAppBar = () => {
+const ReaderAppBar = ({readerData}) => {
     return (
         <Box sx={{ flexGrow: 1}}>
             <AppBar
@@ -20,12 +20,13 @@ const ReaderAppBar = () => {
                         color="inherit"
                         aria-label="back"
                         sx={{ mr: 2 }}
+                        href={readerData.bookUrl}
                     >
                         <ArrowBackIcon />
                     </IconButton>
 
                     <Typography variant="p" component="div" sx={{ flexGrow: 1 }}>
-                        Глава 2. Рубиновый город
+                        {readerData.chapter.title}
                     </Typography>
 
                     <IconButton
