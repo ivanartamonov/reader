@@ -1,9 +1,10 @@
 import React from 'react';
 import {AppBar, Box, IconButton, Toolbar, Typography} from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {BookmarkBorder, FormatListBulleted, MoreVert, Settings} from "@mui/icons-material";
+import {FormatListBulleted, MoreVert, Settings} from "@mui/icons-material";
+import ToLibraryButton from "./ToLibraryButton";
 
-const ReaderAppBar = ({readerData}) => {
+const ReaderAppBar = ({context, readerData}) => {
     return (
         <Box sx={{ flexGrow: 1}}>
             <AppBar
@@ -29,14 +30,11 @@ const ReaderAppBar = ({readerData}) => {
                         {readerData.chapter.title}
                     </Typography>
 
-                    <IconButton
-                        size="medium"
-                        color="inherit"
-                        aria-label="To library"
-                        sx={{ ml: 1 }}
-                    >
-                        <BookmarkBorder />
-                    </IconButton>
+                    <ToLibraryButton
+                        isUserLoggedIn={context.isUserLoggedIn}
+                        inLibrary={readerData.isInLibrary}
+                    />
+
                     <IconButton
                         size="medium"
                         color="inherit"

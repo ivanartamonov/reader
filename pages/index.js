@@ -3,7 +3,7 @@ import {Container, CssBaseline, ThemeProvider} from "@mui/material";
 import ReaderAppBar from "../components/ReaderAppBar";
 import theme from "../config/Theme";
 
-export default function Home({readerData, chapterText}) {
+export default function Home({context, readerData, chapterText}) {
   return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -14,7 +14,10 @@ export default function Home({readerData, chapterText}) {
             </Head>
 
             <main>
-                <ReaderAppBar readerData={readerData} />
+                <ReaderAppBar
+                    readerData={readerData}
+                    context={context}
+                />
                 <Container>
                     <h1>{readerData.chapter.title}</h1>
                     <p>{chapterText}</p>
@@ -27,14 +30,20 @@ export default function Home({readerData, chapterText}) {
 
 export async function getStaticProps() {
     const readerData = {
+        isInLibrary: false,
         chapter: {
             title: 'Глава 2. Рубиновый город'
         },
         bookUrl: 'https://dev.litnet.com/ru/book/disgardium-ugroza-a-klassa-b89465',
     }
 
+    const context = {
+        isUserLoggedIn: true
+    }
+
     return {
         props: {
+            context,
             readerData,
             chapterText: 'Тут будет текст главы',
         }
