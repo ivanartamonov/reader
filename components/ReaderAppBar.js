@@ -4,7 +4,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {FormatListBulleted, MoreVert, Settings} from "@mui/icons-material";
 import ToLibraryButton from "./ToLibraryButton";
 
-const ReaderAppBar = ({context, readerData}) => {
+const ReaderAppBar = ({user, readerData}) => {
     return (
         <Box sx={{ flexGrow: 1}}>
             <AppBar
@@ -31,7 +31,7 @@ const ReaderAppBar = ({context, readerData}) => {
                     </Typography>
 
                     <ToLibraryButton
-                        isUserLoggedIn={context.isUserLoggedIn}
+                        isUserLoggedIn={user.isUserLoggedIn}
                         inLibrary={readerData.isInLibrary}
                     />
 
