@@ -1,15 +1,10 @@
 import Head from 'next/head'
 import {Container, CssBaseline, ThemeProvider} from "@mui/material";
-import ReaderAppBar from "../components/ReaderAppBar";
-import theme from "../config/Theme";
-import LibraryRepository, {useBookQuery} from "../data/library/LibraryRepository";
-import {useBookInLibraryStatus} from "../queries/library";
+import ReaderAppBar from "../../components/ReaderAppBar";
+import theme from "../../config/Theme";
+import Book from "../../models/Book";
 
-export default function Home({user, readerData, chapterText}) {
-    const libRepo = LibraryRepository;
-    //console.log(useBookQuery(196551));
-    console.log(useBookInLibraryStatus(196551));
-
+export default function Reader({user, readerData, chapterText}) {
   return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -35,12 +30,38 @@ export default function Home({user, readerData, chapterText}) {
 }
 
 export async function getServerSideProps(context) {
-    //const bookId = 196551;
+    // OK - define bookId from URL
+    // define chapterId from URL
+    // define User
+    // check access
+    // fetch bookInfo
+    // fetch chapter info
+    // fetch text
 
-    //const {data: bookInLibStatus, isSuccess} = useBookInLibraryStatus(bookId);
+    // define bookId from URL
+    const slug = context.params?.slug;
+    const bookId = Book.extractIdFromSlug(slug);
+
+    if (bookId === undefined) {
+        return { props: {err: { statusCode: 404 }} }
+    }
+
+    // define chapterId from URL
+    const chapterId = context.query.c;
+
+    // TODO: define User
+
+    // TODO: check access
+
+    // fetch bookInfo
+
+
+    //const bookId = 196551;
+    const URL = `https://api.dev.litnet.com/v2/library/is-exists?bookId=${bookId}`;
+    const inLib = await fetch(URL).then(response => response.json());
 
     const readerData = {
-        isInLibrary: true,
+        isInLibrary: inLib,
         chapter: {
             title: 'Глава 2. Рубиновый город'
         },
