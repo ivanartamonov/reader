@@ -31,12 +31,14 @@ export default function Reader({user, readerData, chapterText}) {
 
 export async function getServerSideProps(context) {
     // OK - define bookId from URL
-    // define chapterId from URL
-    // define User
+    // OK - define chapterId from URL
+    // OK - define User
     // check access
     // fetch bookInfo
     // fetch chapter info
     // fetch text
+    const BASE_API_URL = `https://api.dev.litnet.com/v2/`;
+    const BASE_WEB_URL = `https://dev.litnet.com/`;
 
     // define bookId from URL
     const slug = context.params?.slug;
@@ -50,15 +52,22 @@ export async function getServerSideProps(context) {
     const chapterId = context.query.c;
 
     // TODO: define User
+    const cookie = context.req ? context.req.headers.cookie : null;
+    const userData = await fetch(`${BASE_WEB_URL}auth/front`, {
+        headers: {
+            cookie
+        }
+    }).then(response => response.json());
 
     // TODO: check access
 
     // fetch bookInfo
 
-
-    //const bookId = 196551;
-    const URL = `https://api.dev.litnet.com/v2/library/is-exists?bookId=${bookId}`;
-    const inLib = await fetch(URL).then(response => response.json());
+    const inLib = await fetch(`${BASE_API_URL}library/is-exists/${bookId}`, {
+        headers: {
+            Authorization: 'Bearer ' + userData.token
+        }
+    }).then(response => response.json());
 
     const readerData = {
         isInLibrary: inLib,
@@ -69,7 +78,8 @@ export async function getServerSideProps(context) {
     }
 
     const user = {
-        isUserLoggedIn: true
+        isUserLoggedIn: typeof userData !== undefined,
+        ...userData.user
     }
 
     return {
