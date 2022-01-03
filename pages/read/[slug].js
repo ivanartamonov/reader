@@ -1,11 +1,11 @@
 import Head from 'next/head'
-import {Container, CssBaseline, ThemeProvider} from "@mui/material";
+import {CssBaseline, ThemeProvider} from "@mui/material";
 import ReaderAppBar from "../../components/reader/ReaderAppBar";
 import theme from "../../config/Theme";
 import Book from "../../models/Book";
 import ApiClient from "../../queries/client/ApiClient";
 import {CFG} from "../../queries/config";
-import ReaderPagination from "../../components/reader/ReaderPagination";
+import ReaderText from "../../components/reader/ReaderText";
 
 export default function Reader({user, readerData, chapterText}) {
   return (
@@ -22,15 +22,11 @@ export default function Reader({user, readerData, chapterText}) {
                     readerData={readerData}
                     user={user}
                 />
-                <Container sx={{ maxWidth:'800px'}} maxWidth={false}>
-                    <h1>{readerData.chapter.title}</h1>
-                    <div dangerouslySetInnerHTML={{__html:chapterText}} />
-                    <ReaderPagination
-                        page={1}
-                        totalPages={2}
-                        locked={false}
-                    />
-                </Container>
+                <ReaderText
+                    readerData={readerData}
+                    chapterText={chapterText}
+                    currentPage={1}
+                />
             </main>
         </div>
       </ThemeProvider>

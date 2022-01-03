@@ -3,8 +3,8 @@ import {Box, Button, IconButton, Pagination, useTheme} from "@mui/material";
 import {KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
 import MediaQuery, {useMediaQuery} from "react-responsive";
 
-const ReaderPagination = ({page, totalPages, locked}) => {
-    const [page, setPage] = useState(page);
+const ReaderPagination = ({currentPage, totalPages, locked}) => {
+    const [page, setPage] = useState(currentPage);
     const isMobile = useMediaQuery({ maxWidth: 767 });
     const theme = useTheme();
 
