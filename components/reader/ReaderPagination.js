@@ -2,10 +2,23 @@ import React from 'react';
 import {Box, Button, IconButton, Pagination, useTheme} from "@mui/material";
 import {KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
 import MediaQuery, {useMediaQuery} from "react-responsive";
+import useEventListener from "../../utils/eventListenerHook";
 
 const ReaderPagination = ({currentPage, totalPages, locked, onPageChange}) => {
     const isMobile = useMediaQuery({ maxWidth: 767 });
     const theme = useTheme();
+
+    function arrowKeysHandler({key}) {
+        const LEFT_ARROW_KEYS = ['37', 'ArrowLeft'];
+        const RIGHT_ARROW_KEYS = ['37', 'ArrowRight'];
+
+        if (LEFT_ARROW_KEYS.includes(String(key))) {
+            back();
+        }
+        if (RIGHT_ARROW_KEYS.includes(String(key))) {
+            next();
+        }
+    }
 
     function back() {
         if (currentPage === 1) {
@@ -23,6 +36,8 @@ const ReaderPagination = ({currentPage, totalPages, locked, onPageChange}) => {
     function toPage(page) {
         onPageChange(page);
     }
+
+    useEventListener('keydown', arrowKeysHandler);
 
     return (
         <Box
