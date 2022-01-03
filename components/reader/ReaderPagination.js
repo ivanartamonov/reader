@@ -1,29 +1,27 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Box, Button, IconButton, Pagination, useTheme} from "@mui/material";
 import {KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
 import MediaQuery, {useMediaQuery} from "react-responsive";
 
-const ReaderPagination = ({currentPage, totalPages, locked}) => {
-    const [page, setPage] = useState(currentPage);
+const ReaderPagination = ({currentPage, totalPages, locked, onPageChange}) => {
     const isMobile = useMediaQuery({ maxWidth: 767 });
     const theme = useTheme();
 
     function back() {
-        if (page === 1) {
+        if (currentPage === 1) {
             return;
         }
-
-        setPage(page - 1);
+        onPageChange(currentPage - 1);
     }
 
     function next() {
-        if (page < totalPages) {
-            setPage(page + 1);
+        if (currentPage < totalPages) {
+            onPageChange(currentPage + 1);
         }
     }
 
     function toPage(page) {
-        setPage(page);
+        onPageChange(page);
     }
 
     return (
@@ -42,7 +40,7 @@ const ReaderPagination = ({currentPage, totalPages, locked}) => {
                     color="black"
                     size="large"
                     onClick={back}
-                    disabled={page === 1 || locked}
+                    disabled={currentPage === 1 || locked}
                     sx={{
                         border: '1px solid',
                         borderColor: theme.palette.secondary
@@ -60,7 +58,7 @@ const ReaderPagination = ({currentPage, totalPages, locked}) => {
                     startIcon={<KeyboardArrowLeft />}
                     sx={{textTransform: 'none'}}
                     onClick={back}
-                    disabled={page === 1 || locked}
+                    disabled={currentPage === 1 || locked}
                 >
                     {isMobile ? '' : 'Назад'}
                 </Button>
@@ -68,7 +66,7 @@ const ReaderPagination = ({currentPage, totalPages, locked}) => {
 
             <Pagination
                 count={totalPages}
-                page={page}
+                page={currentPage}
                 hideNextButton={true}
                 hidePrevButton={true}
                 shape='rounded'
@@ -86,7 +84,7 @@ const ReaderPagination = ({currentPage, totalPages, locked}) => {
                     size="large"
                     edge='end'
                     onClick={next}
-                    disabled={page === totalPages || locked}
+                    disabled={currentPage === totalPages || locked}
                     sx={{
                         border: '1px solid',
                         borderColor: theme.palette.secondary
@@ -103,7 +101,7 @@ const ReaderPagination = ({currentPage, totalPages, locked}) => {
                     endIcon={<KeyboardArrowRight />}
                     sx={{textTransform: 'none'}}
                     onClick={next}
-                    disabled={page === totalPages || locked}
+                    disabled={currentPage === totalPages || locked}
                 >
                     Далее
                 </Button>
