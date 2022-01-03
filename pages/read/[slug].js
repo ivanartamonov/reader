@@ -3,6 +3,8 @@ import {Container, CssBaseline, ThemeProvider} from "@mui/material";
 import ReaderAppBar from "../../components/ReaderAppBar";
 import theme from "../../config/Theme";
 import Book from "../../models/Book";
+import ApiClient from "../../queries/client/ApiClient";
+import {CFG} from "../../queries/config";
 
 export default function Reader({user, readerData, chapterText}) {
   return (
@@ -19,9 +21,9 @@ export default function Reader({user, readerData, chapterText}) {
                     readerData={readerData}
                     user={user}
                 />
-                <Container>
+                <Container sx={{ maxWidth:'800px'}} maxWidth={false}>
                     <h1>{readerData.chapter.title}</h1>
-                    <p>{chapterText}</p>
+                    <div dangerouslySetInnerHTML={{__html:chapterText}} />
                 </Container>
             </main>
         </div>
@@ -30,51 +32,42 @@ export default function Reader({user, readerData, chapterText}) {
 }
 
 export async function getServerSideProps(context) {
-    // OK - define bookId from URL
-    // OK - define chapterId from URL
-    // OK - define User
-    // check access
-    // fetch bookInfo
-    // fetch chapter info
-    // fetch text
-    const BASE_API_URL = `https://api.dev.litnet.com/v2/`;
-    const BASE_WEB_URL = `https://dev.litnet.com/`;
-
-    // define bookId from URL
-    const slug = context.params?.slug;
-    const bookId = Book.extractIdFromSlug(slug);
+    let {bookId, chapterId} = extractQueryParams(context);
 
     if (bookId === undefined) {
         return { props: {err: { statusCode: 404 }} }
     }
 
-    // define chapterId from URL
-    const chapterId = context.query.c;
-
-    // TODO: define User
-    const cookie = context.req ? context.req.headers.cookie : null;
-    const userData = await fetch(`${BASE_WEB_URL}auth/front`, {
-        headers: {
-            cookie
-        }
-    }).then(response => response.json());
-
-    // TODO: check access
+    // define User
+    const userData = await defineUser(context);
+    if (userData.token) {
+        ApiClient._jwt = userData.token;
+    }
 
     // fetch bookInfo
+    const book = await fetchBook(bookId, chapterId === undefined);
 
-    const inLib = await fetch(`${BASE_API_URL}library/is-exists/${bookId}`, {
+    // fetch chapterInfo
+    if (chapterId === undefined) {
+        chapterId = book.firstChapterId;
+    }
+    const chapterInfo = await fetchChapter(chapterId);
+
+    const inLib = await fetch(`${CFG.BASE_API_URL}library/is-exists/${bookId}`, {
         headers: {
             Authorization: 'Bearer ' + userData.token
         }
     }).then(response => response.json());
 
+    // fetch text
+    const text = await fetchText(chapterId);
+
     const readerData = {
         isInLibrary: inLib,
         chapter: {
-            title: 'Глава 2. Рубиновый город'
+            title: chapterInfo.title
         },
-        bookUrl: 'https://dev.litnet.com/ru/book/disgardium-ugroza-a-klassa-b89465',
+        bookUrl: book.link,
     }
 
     const user = {
@@ -86,7 +79,46 @@ export async function getServerSideProps(context) {
         props: {
             user,
             readerData,
-            chapterText: 'Тут будет текст главы',
+            chapterText: text.text,
         }
     }
+}
+
+function extractQueryParams(context) {
+    return {
+        bookId: Book.extractIdFromSlug(context.params?.slug),
+        chapterId: context.query.c
+    };
+}
+
+function defineUser(context)  {
+    const cookie = context.req ? context.req.headers.cookie : null;
+
+    if (cookie) {
+        return fetch(`${CFG.BASE_WEB_URL}auth/front`, {
+            headers: {
+                cookie
+            }
+        }).then(response => response.json());
+    }
+
+    return null;
+}
+
+function fetchBook(bookId, withFirstChapter)  {
+    let url = `${CFG.BASE_API_URL}book/get/${bookId}?expand=link`;
+
+    if (withFirstChapter) {
+        url += ',firstChapterId';
+    }
+
+    return ApiClient.call(url);
+}
+
+function fetchChapter(chapterId) {
+    return ApiClient.call(`${CFG.BASE_API_URL}chapter/${chapterId}`);
+}
+
+function fetchText(chapterId) {
+    return ApiClient.call(`${CFG.BASE_API_URL}read/${chapterId}`);
 }
