@@ -2,7 +2,7 @@ import React from 'react';
 import {AppBar, Box, IconButton, Toolbar, Typography} from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {FormatListBulleted, MoreVert, Settings} from "@mui/icons-material";
-import ToLibraryButton from "./ToLibraryButton";
+import ToLibraryButton from "../ToLibraryButton";
 
 const ReaderAppBar = ({user, readerData}) => {
     return (
