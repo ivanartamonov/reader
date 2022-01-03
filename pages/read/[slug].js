@@ -25,7 +25,11 @@ export default function Reader({user, readerData, chapterText}) {
                 <Container sx={{ maxWidth:'800px'}} maxWidth={false}>
                     <h1>{readerData.chapter.title}</h1>
                     <div dangerouslySetInnerHTML={{__html:chapterText}} />
-                    <ReaderPagination />
+                    <ReaderPagination
+                        page={1}
+                        totalPages={2}
+                        locked={false}
+                    />
                 </Container>
             </main>
         </div>
