@@ -7,7 +7,7 @@ import ApiClient from "../../queries/client/ApiClient";
 import {CFG} from "../../queries/config";
 import ReaderText from "../../components/reader/ReaderText";
 
-export default function Reader({user, readerData, chapterText}) {
+export default function Reader({user, readerData, chapterText, book}) {
   return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -21,6 +21,7 @@ export default function Reader({user, readerData, chapterText}) {
                 <ReaderAppBar
                     readerData={readerData}
                     user={user}
+                    book={book}
                 />
                 <ReaderText
                     readerData={readerData}
@@ -87,6 +88,7 @@ export async function getServerSideProps(context) {
             user,
             readerData,
             chapterText: text.text,
+            book
         }
     }
 }
@@ -114,7 +116,7 @@ function defineUser(context)  {
 }
 
 function fetchBook(bookId, withFirstChapter)  {
-    let url = `${CFG.BASE_API_URL}book/get/${bookId}?expand=link`;
+    let url = `${CFG.BASE_API_URL}book/get/${bookId}?expand=link,coverUrl,author,status,paperPages`;
 
     if (withFirstChapter) {
         url += ',firstChapterId';

@@ -1,0 +1,55 @@
+@import "styles/variables";
+.panelBox {
+  width: 420px;
+  padding: 25px;
+
+  @media screen and (max-width: $deviceMobileSize) {
+    width: 300px;
+    padding: 15px;
+  }
+
+  .bookInfo {
+    padding-bottom: 5px;
+    display: flex;
+    align-items: flex-start;
+
+    .bookCover {
+      width: 100px;
+      border-radius: 5px;
+      margin-right: 20px;
+
+      @media screen and (max-width: $deviceMobileSize) {
+        width: 80px;
+        margin-right: 12px;
+      }
+    }
+    .authorLink {
+      font-size: 12px;
+      line-height: 28px;
+      color: map-get($colors, 'brand');
+      text-decoration: none;
+
+      &:hover {
+        color: map-get($colors, 'brandDark');
+      }
+    }
+    .bookTitle {
+      font-size: 18px;
+      line-height: 22px;
+      margin: 0;
+      padding: 3px 0;
+    }
+    .bookStatus {
+      display: flex;
+      font-size: 12px;
+      align-items: center;
+      line-height: 28px;
+
+      svg {
+        font-size: 14px;
+        margin-right: 3px;
+      }
+    }
+  }
+}
+

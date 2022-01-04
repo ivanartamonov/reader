@@ -1,10 +1,11 @@
 import React from 'react';
 import {AppBar, Box, IconButton, Toolbar, Typography} from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {FormatListBulleted, MoreVert, Settings} from "@mui/icons-material";
+import {MoreVert, Settings} from "@mui/icons-material";
 import ToLibraryButton from "../ToLibraryButton";
+import TocPanel from "./TOCPanel";
 
-const ReaderAppBar = ({user, readerData}) => {
+const ReaderAppBar = ({user, readerData, book}) => {
     return (
         <Box sx={{ flexGrow: 1}}>
             <AppBar
@@ -35,14 +36,8 @@ const ReaderAppBar = ({user, readerData}) => {
                         inLibrary={readerData.isInLibrary}
                     />
 
-                    <IconButton
-                        size="medium"
-                        color="inherit"
-                        aria-label="Chapters"
-                        sx={{ ml: 1 }}
-                    >
-                        <FormatListBulleted />
-                    </IconButton>
+                    <TocPanel book={book} />
+
                     <IconButton
                         size="medium"
                         color="inherit"
