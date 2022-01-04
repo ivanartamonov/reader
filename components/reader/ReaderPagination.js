@@ -4,7 +4,7 @@ import {KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
 import MediaQuery, {useMediaQuery} from "react-responsive";
 import useEventListener from "../../utils/eventListenerHook";
 
-const ReaderPagination = ({currentPage, totalPages, locked, onPageChange}) => {
+const ReaderPagination = ({currentPage, totalPages, locked, onPageChange, loadChapter, prevChapter, nextChapter}) => {
     const isMobile = useMediaQuery({ maxWidth: 767 });
     const theme = useTheme();
 
@@ -20,8 +20,47 @@ const ReaderPagination = ({currentPage, totalPages, locked, onPageChange}) => {
         }
     }
 
+    const backBtnLabel = () => {
+        if (isMobile && currentPage > 1) {
+            return '';
+        }
+        if (isMobile && currentPage === 1 && !prevChapter) {
+            return '';
+        }
+        if (isMobile && currentPage === 1 && prevChapter) {
+            return 'Пред.глава';
+        }
+
+        if (currentPage === 1 && prevChapter) {
+            return 'Пред.глава';
+        } else {
+            return 'Назад';
+        }
+    }
+
+    const nextBtnLabel = () => {
+        if (isMobile && currentPage < totalPages) {
+            return '';
+        }
+        if (isMobile && currentPage === totalPages && !nextChapter) {
+            return '';
+        }
+        if (isMobile && currentPage === totalPages && nextChapter) {
+            return 'След.глава';
+        }
+
+        if (currentPage === totalPages && nextChapter) {
+            return 'След.глава';
+        } else {
+            return 'Вперед';
+        }
+    }
+
     function back() {
         if (currentPage === 1) {
+            if (prevChapter) {
+                loadChapter(prevChapter.id, prevChapter.pages);
+            }
             return;
         }
         onPageChange(currentPage - 1);
@@ -30,6 +69,8 @@ const ReaderPagination = ({currentPage, totalPages, locked, onPageChange}) => {
     function next() {
         if (currentPage < totalPages) {
             onPageChange(currentPage + 1);
+        } else if (nextChapter) {
+            loadChapter(nextChapter.id);
         }
     }
 
@@ -55,7 +96,7 @@ const ReaderPagination = ({currentPage, totalPages, locked, onPageChange}) => {
                     color="black"
                     size="large"
                     onClick={back}
-                    disabled={currentPage === 1 || locked}
+                    disabled={(currentPage === 1 && !prevChapter) || locked}
                     sx={{
                         border: '1px solid',
                         borderColor: theme.palette.secondary
@@ -73,9 +114,9 @@ const ReaderPagination = ({currentPage, totalPages, locked, onPageChange}) => {
                     startIcon={<KeyboardArrowLeft />}
                     sx={{textTransform: 'none'}}
                     onClick={back}
-                    disabled={currentPage === 1 || locked}
+                    disabled={(currentPage === 1 && !prevChapter) || locked}
                 >
-                    {isMobile ? '' : 'Назад'}
+                    {backBtnLabel()}
                 </Button>
             </MediaQuery>
 
@@ -99,7 +140,7 @@ const ReaderPagination = ({currentPage, totalPages, locked, onPageChange}) => {
                     size="large"
                     edge='end'
                     onClick={next}
-                    disabled={currentPage === totalPages || locked}
+                    disabled={(currentPage === totalPages && !nextChapter) || locked}
                     sx={{
                         border: '1px solid',
                         borderColor: theme.palette.secondary
@@ -116,9 +157,9 @@ const ReaderPagination = ({currentPage, totalPages, locked, onPageChange}) => {
                     endIcon={<KeyboardArrowRight />}
                     sx={{textTransform: 'none'}}
                     onClick={next}
-                    disabled={currentPage === totalPages || locked}
+                    disabled={(currentPage === totalPages && !nextChapter) || locked}
                 >
-                    Далее
+                    {nextBtnLabel()}
                 </Button>
             </MediaQuery>
         </Box>

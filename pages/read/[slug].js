@@ -12,6 +12,8 @@ export default function Reader({user, readerData: readerInfo, chapterText, book,
     const [readerData, setReaderData] = useState(readerInfo);
     const [text, setText] = useState(chapterText);
     const [page, setPage] = useState(readerInfo.page);
+    const [prevChapter, setPrevChapter] = useState(definePrevChapterId(readerInfo.chapter.id, toc));
+    const [nextChapter, setNextChapter] = useState(defineNextChapterId(readerInfo.chapter.id, toc));
 
     const getText = async (chapterId, page) => {
         return await ApiClient.call(`${CFG.BASE_API_URL}read/${chapterId}?page=${page}`);
@@ -22,24 +24,27 @@ export default function Reader({user, readerData: readerInfo, chapterText, book,
         updateText(readerData.chapter.id, page);
     }
 
-    function loadChapter (chapterId) {
+    function loadChapter (chapterId, page = 1) {
         let newChapter;
 
         for (let i=0; i < toc.length; i++) {
-            if (toc[i].id === chapterId) {
+            if (toc[i].id == chapterId) {
                 newChapter = {
                     id: parseInt(toc[i].id),
-                    title: toc[i].title
+                    title: toc[i].title,
+                    pages: parseInt(toc[i].pages_count)
                 };
                 break;
             }
         }
 
         if (newChapter !== undefined) {
-            const newReaderData = {...readerData, chapter: newChapter, page: 1};
+            const newReaderData = {...readerData, chapter: newChapter, page: page};
             setReaderData(newReaderData);
-            setPage(1);
-            updateText(newReaderData.chapter.id, 1);
+            setPage(page);
+            setPrevChapter(definePrevChapterId(newReaderData.chapter.id, toc));
+            setNextChapter(defineNextChapterId(newReaderData.chapter.id, toc));
+            updateText(newReaderData.chapter.id, page);
         }
     }
 
@@ -77,6 +82,8 @@ export default function Reader({user, readerData: readerInfo, chapterText, book,
                     currentPage={page}
                     loadPage={loadPage}
                     loadChapter={loadChapter}
+                    prevChapter={prevChapter}
+                    nextChapter={nextChapter}
                 />
             </main>
         </div>
@@ -125,7 +132,8 @@ export async function getServerSideProps(context) {
         isInLibrary: inLib,
         chapter: {
             id: chapterInfo.id,
-            title: chapterInfo.title
+            title: chapterInfo.title,
+            pages: chapterInfo.pages_count
         },
         page: page,
         bookUrl: book.link,
@@ -190,4 +198,30 @@ function fetchText(chapterId, page) {
 
 function fetchToc(bookId) {
     return ApiClient.call(`${CFG.BASE_API_URL}book/${bookId}/contents`);
+}
+
+function definePrevChapterId(currentChapterId, toc) {
+    for (let i=0; i < toc.length; i++) {
+        if (parseInt(toc[i].id) === currentChapterId && i > 0) {
+            return {
+                id: parseInt(toc[i-1].id),
+                pages: parseInt(toc[i-1].pages_count)
+            }
+        }
+    }
+
+    return null;
+}
+
+function defineNextChapterId(currentChapterId, toc) {
+    for (let i=0; i < toc.length; i++) {
+        if (parseInt(toc[i].id) === currentChapterId && i < toc.length-1) {
+            return {
+                id: parseInt(toc[i+1].id),
+                pages: parseInt(toc[i+1].pages_count)
+            }
+        }
+    }
+
+    return null;
 }

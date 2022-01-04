@@ -2,7 +2,7 @@ import React from 'react';
 import ReaderPagination from "./ReaderPagination";
 import {Container} from "@mui/material";
 
-const ReaderText = ({readerData, chapterText, currentPage, loadPage, loadChapter}) => {
+const ReaderText = ({readerData, chapterText, currentPage, loadPage, loadChapter, prevChapter, nextChapter}) => {
     return (
         <Container sx={{ maxWidth:'800px'}} maxWidth={false}>
             {currentPage === 1 ? <h1>{readerData.chapter.title}</h1> : ''}
@@ -10,10 +10,12 @@ const ReaderText = ({readerData, chapterText, currentPage, loadPage, loadChapter
             <div dangerouslySetInnerHTML={{__html:chapterText}} />
             <ReaderPagination
                 currentPage={currentPage}
-                totalPages={2}
+                totalPages={readerData.chapter.pages}
                 locked={false}
                 onPageChange={loadPage}
-                onChapterChange={loadChapter}
+                loadChapter={loadChapter}
+                prevChapter={prevChapter}
+                nextChapter={nextChapter}
             />
         </Container>
     );
