@@ -4,7 +4,7 @@ import {FormatListBulleted, Refresh} from "@mui/icons-material";
 import {useMediaQuery} from "react-responsive";
 import styles from './TOCPanel.module.scss';
 
-const TocPanel = ({book, currentChapterId, toc}) => {
+const TocPanel = ({book, currentChapterId, toc, loadChapter}) => {
     const [panelState, setPanelState] = useState(false);
     const isMobile = useMediaQuery({ maxWidth: 767 });
 
@@ -14,6 +14,12 @@ const TocPanel = ({book, currentChapterId, toc}) => {
         }
 
         setPanelState(!panelState);
+    }
+
+    function onSelectChapter(event, chapterId) {
+        event.preventDefault();
+        setPanelState(!panelState);
+        loadChapter(chapterId);
     }
 
     const bookInfo = () => (
@@ -40,7 +46,7 @@ const TocPanel = ({book, currentChapterId, toc}) => {
             {currentChapterId === parseInt(chapter.id, 10)
                 ? (<span className={styles.current}>{chapter.title}</span>)
                 : (
-                    <a href={chapter.link} onClick={(e) => {e.preventDefault(); console.log('clicked');}}>
+                    <a href={chapter.link} onClick={event => onSelectChapter(event, chapter.id)}>
                         {chapter.title}
                     </a>
                 )

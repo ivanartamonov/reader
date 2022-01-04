@@ -6,9 +6,55 @@ import Book from "../../models/Book";
 import ApiClient from "../../queries/client/ApiClient";
 import {CFG} from "../../queries/config";
 import ReaderText from "../../components/reader/ReaderText";
+import {useState} from "react";
 
-export default function Reader({user, readerData, chapterText, book, toc}) {
-  return (
+export default function Reader({user, readerData: readerInfo, chapterText, book, toc}) {
+    const [readerData, setReaderData] = useState(readerInfo);
+    const [text, setText] = useState(chapterText);
+    const [page, setPage] = useState(readerInfo.page);
+
+    const getText = async (chapterId, page) => {
+        return await ApiClient.call(`${CFG.BASE_API_URL}read/${chapterId}?page=${page}`);
+    }
+
+    function loadPage(page) {
+        setPage(page);
+        updateText(readerData.chapter.id, page);
+    }
+
+    function loadChapter (chapterId) {
+        let newChapter;
+
+        for (let i=0; i < toc.length; i++) {
+            if (toc[i].id === chapterId) {
+                newChapter = {
+                    id: parseInt(toc[i].id),
+                    title: toc[i].title
+                };
+                break;
+            }
+        }
+
+        if (newChapter !== undefined) {
+            const newReaderData = {...readerData, chapter: newChapter, page: 1};
+            setReaderData(newReaderData);
+            setPage(1);
+            updateText(newReaderData.chapter.id, 1);
+        }
+    }
+
+    function updateText(chapterId, page) {
+        const promise = getText(chapterId, page);
+        promise.then((res) => {
+            setText(res.text);
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    }
+
+    return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="container">
@@ -23,16 +69,19 @@ export default function Reader({user, readerData, chapterText, book, toc}) {
                     user={user}
                     book={book}
                     toc={toc}
+                    loadChapter={loadChapter}
                 />
                 <ReaderText
                     readerData={readerData}
-                    chapterText={chapterText}
-                    currentPage={readerData.page}
+                    chapterText={text}
+                    currentPage={page}
+                    loadPage={loadPage}
+                    loadChapter={loadChapter}
                 />
             </main>
         </div>
       </ThemeProvider>
-  )
+    )
 }
 
 export async function getServerSideProps(context) {
