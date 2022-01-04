@@ -7,7 +7,7 @@ import ApiClient from "../../queries/client/ApiClient";
 import {CFG} from "../../queries/config";
 import ReaderText from "../../components/reader/ReaderText";
 
-export default function Reader({user, readerData, chapterText, book}) {
+export default function Reader({user, readerData, chapterText, book, toc}) {
   return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -22,6 +22,7 @@ export default function Reader({user, readerData, chapterText, book}) {
                     readerData={readerData}
                     user={user}
                     book={book}
+                    toc={toc}
                 />
                 <ReaderText
                     readerData={readerData}
@@ -68,6 +69,9 @@ export async function getServerSideProps(context) {
     // fetch text
     const text = await fetchText(chapterId, page);
 
+    // fetch toc
+    const toc = await fetchToc(bookId);
+
     const readerData = {
         isInLibrary: inLib,
         chapter: {
@@ -79,6 +83,7 @@ export async function getServerSideProps(context) {
     }
 
     const user = {
+        jwt: userData.token,
         isUserLoggedIn: typeof userData !== undefined,
         ...userData.user
     }
@@ -88,7 +93,8 @@ export async function getServerSideProps(context) {
             user,
             readerData,
             chapterText: text.text,
-            book
+            book,
+            toc
         }
     }
 }
@@ -131,4 +137,8 @@ function fetchChapter(chapterId) {
 
 function fetchText(chapterId, page) {
     return ApiClient.call(`${CFG.BASE_API_URL}read/${chapterId}?page=${page}`);
+}
+
+function fetchToc(bookId) {
+    return ApiClient.call(`${CFG.BASE_API_URL}book/${bookId}/contents`);
 }

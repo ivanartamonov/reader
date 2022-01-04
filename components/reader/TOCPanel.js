@@ -4,7 +4,7 @@ import {FormatListBulleted, Refresh} from "@mui/icons-material";
 import {useMediaQuery} from "react-responsive";
 import styles from './TOCPanel.module.scss';
 
-const TocPanel = ({book}) => {
+const TocPanel = ({book, currentChapterId, toc}) => {
     const [panelState, setPanelState] = useState(false);
     const isMobile = useMediaQuery({ maxWidth: 767 });
 
@@ -35,6 +35,19 @@ const TocPanel = ({book}) => {
         </div>
     );
 
+    const tocItem = (chapter) => (
+        <div className={styles.tocItem} key={chapter.id}>
+            {currentChapterId === parseInt(chapter.id, 10)
+                ? (<span className={styles.current}>{chapter.title}</span>)
+                : (
+                    <a href={chapter.link} onClick={(e) => {e.preventDefault(); console.log('clicked');}}>
+                        {chapter.title}
+                    </a>
+                )
+            }
+        </div>
+    );
+
     const list = () => (
         <Box
             className={styles.panelBox}
@@ -42,13 +55,11 @@ const TocPanel = ({book}) => {
         >
             {bookInfo()}
             <h3>Содержание</h3>
-            <List>
-                {['Глава 1', 'Глава 2', 'Глава 3'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemText primary={text} />
-                    </ListItem>
+            <div className={styles.toc}>
+                {toc.map((chapter) => (
+                    tocItem(chapter)
                 ))}
-            </List>
+            </div>
         </Box>
     );
 

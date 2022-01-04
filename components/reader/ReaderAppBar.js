@@ -5,7 +5,7 @@ import {MoreVert, Settings} from "@mui/icons-material";
 import ToLibraryButton from "../ToLibraryButton";
 import TocPanel from "./TOCPanel";
 
-const ReaderAppBar = ({user, readerData, book}) => {
+const ReaderAppBar = ({user, readerData, book, toc}) => {
     return (
         <Box sx={{ flexGrow: 1}}>
             <AppBar
@@ -36,7 +36,11 @@ const ReaderAppBar = ({user, readerData, book}) => {
                         inLibrary={readerData.isInLibrary}
                     />
 
-                    <TocPanel book={book} />
+                    <TocPanel
+                        book={book}
+                        currentChapterId={readerData.chapter.id}
+                        toc={toc}
+                    />
 
                     <IconButton
                         size="medium"
