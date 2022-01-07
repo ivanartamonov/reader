@@ -1,9 +1,16 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import styles from './reader_settings.module.scss';
 import {Box, Radio, Typography} from "@mui/material";
 import {ColorLens} from "@mui/icons-material";
+import {ThemeContext} from "../ThemeProvider";
 
 const ThemeSwitcher = () => {
+    const {themeName, themes, setTheme} = useContext(ThemeContext);
+
+    function changeTheme(newThemeName) {
+        setTheme(newThemeName);
+    }
+
     return (
         <Box
             className={styles.themeSizeRoot}
@@ -33,6 +40,7 @@ const ThemeSwitcher = () => {
                         icon={
                             <Box className={styles.icon}/>
                         }
+                        onClick={() => changeTheme('DEFAULT')}
                     />
                     <Radio
                         disableRipple
@@ -46,6 +54,7 @@ const ThemeSwitcher = () => {
                         icon={
                             <Box className={styles.icon}/>
                         }
+                        onClick={() => changeTheme('DARK')}
                     />
                     <Radio
                         disableRipple

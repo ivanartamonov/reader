@@ -1,7 +1,5 @@
 import Head from 'next/head'
-import {CssBaseline, ThemeProvider} from "@mui/material";
 import ReaderAppBar from "../../components/reader/ReaderAppBar";
-import theme from "../../config/Theme";
 import Book from "../../models/Book";
 import ApiClient from "../../queries/client/ApiClient";
 import {CFG} from "../../queries/config";
@@ -65,8 +63,6 @@ export default function Reader({user, readerData: readerInfo, chapterText, book,
     }
 
     return (
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
         <div className="container">
             <Head>
                 <title>Reader</title>
@@ -95,7 +91,6 @@ export default function Reader({user, readerData: readerInfo, chapterText, book,
                 />
             </main>
         </div>
-      </ThemeProvider>
     )
 }
 

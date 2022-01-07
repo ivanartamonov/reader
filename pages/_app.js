@@ -1,5 +1,6 @@
 import {QueryClient, QueryClientProvider} from "react-query";
 import Error from "next/error";
+import ThemeProvider from "../components/ThemeProvider";
 
 function MyApp({ Component, pageProps }) {
     const queryClient = new QueryClient();
@@ -10,7 +11,9 @@ function MyApp({ Component, pageProps }) {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <Component {...pageProps} />
+            <ThemeProvider>
+                <Component {...pageProps} />
+            </ThemeProvider>
         </QueryClientProvider>
     )
 }
