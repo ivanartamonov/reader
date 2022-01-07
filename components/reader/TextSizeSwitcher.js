@@ -19,16 +19,15 @@ const TextSizeSwitcher = ({onChange, value}) => {
         </Box>
 
         <Slider
-            defaultValue={30}
+            defaultValue={18}
             size={'small'}
             ValueLabelComponent={Box}
             onChange={onChange}
             value={value}
-            marks
             valueLabelDisplay="auto"
-            step={1}
-            min={0}
-            max={2}
+            step={0.5}
+            min={12}
+            max={24}
         />
       </Box>
     </Box>

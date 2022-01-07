@@ -14,6 +14,7 @@ export default function Reader({user, readerData: readerInfo, chapterText, book,
     const [page, setPage] = useState(readerInfo.page);
     const [prevChapter, setPrevChapter] = useState(definePrevChapterId(readerInfo.chapter.id, toc));
     const [nextChapter, setNextChapter] = useState(defineNextChapterId(readerInfo.chapter.id, toc));
+    const [settings, setSettings] = useState({fontSize: 18});
 
     const getText = async (chapterId, page) => {
         return await ApiClient.call(`${CFG.BASE_API_URL}read/${chapterId}?page=${page}`);
@@ -59,6 +60,10 @@ export default function Reader({user, readerData: readerInfo, chapterText, book,
         });
     }
 
+    const onTextSizeChange = (event, value) => {
+        setSettings({...settings, fontSize: value});
+    }
+
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -75,6 +80,8 @@ export default function Reader({user, readerData: readerInfo, chapterText, book,
                     book={book}
                     toc={toc}
                     loadChapter={loadChapter}
+                    onTextSizeChange={onTextSizeChange}
+                    settings={settings}
                 />
                 <ReaderText
                     readerData={readerData}
@@ -84,6 +91,7 @@ export default function Reader({user, readerData: readerInfo, chapterText, book,
                     loadChapter={loadChapter}
                     prevChapter={prevChapter}
                     nextChapter={nextChapter}
+                    settings={settings}
                 />
             </main>
         </div>

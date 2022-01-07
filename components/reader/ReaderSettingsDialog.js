@@ -3,7 +3,7 @@ import {Settings} from "@mui/icons-material";
 import {IconButton, Popover} from "@mui/material";
 import ReaderSettingsControls from "./ReaderSettingsControls";
 
-const ReaderSettingsDialog = () => {
+const ReaderSettingsDialog = ({settings, onTextSizeChange}) => {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
@@ -43,7 +43,10 @@ const ReaderSettingsDialog = () => {
                     horizontal: 'right',
                 }}
             >
-                <ReaderSettingsControls />
+                <ReaderSettingsControls
+                    settings={settings}
+                    onTextSizeChange={onTextSizeChange}
+                />
             </Popover>
         </div>
     );

@@ -6,7 +6,7 @@ import ToLibraryButton from "../ToLibraryButton";
 import TocPanel from "./TOCPanel";
 import ReaderSettingsDialog from "./ReaderSettingsDialog";
 
-const ReaderAppBar = ({user, readerData, book, toc, loadChapter}) => {
+const ReaderAppBar = ({user, readerData, book, toc, loadChapter, onTextSizeChange, settings}) => {
     return (
         <Box sx={{ flexGrow: 1}}>
             <AppBar
@@ -44,7 +44,10 @@ const ReaderAppBar = ({user, readerData, book, toc, loadChapter}) => {
                         loadChapter={loadChapter}
                     />
 
-                    <ReaderSettingsDialog />
+                    <ReaderSettingsDialog
+                        settings={settings}
+                        onTextSizeChange={onTextSizeChange}
+                    />
 
                     <IconButton
                         size="medium"
