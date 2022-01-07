@@ -4,6 +4,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {MoreVert, Settings} from "@mui/icons-material";
 import ToLibraryButton from "../ToLibraryButton";
 import TocPanel from "./TOCPanel";
+import ReaderSettingsDialog from "./ReaderSettingsDialog";
 
 const ReaderAppBar = ({user, readerData, book, toc, loadChapter}) => {
     return (
@@ -43,14 +44,8 @@ const ReaderAppBar = ({user, readerData, book, toc, loadChapter}) => {
                         loadChapter={loadChapter}
                     />
 
-                    <IconButton
-                        size="medium"
-                        color="inherit"
-                        aria-label="Settings"
-                        sx={{ ml: 1 }}
-                    >
-                        <Settings />
-                    </IconButton>
+                    <ReaderSettingsDialog />
+
                     <IconButton
                         size="medium"
                         color="inherit"

@@ -1,0 +1,82 @@
+@import "styles/variables";
+
+.settings_container {
+  padding: 16px 8px;
+}
+
+.fontSizeRoot {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  padding: 8px 16px;
+  width: 300px;
+
+  .label {
+    font-size: 14px;
+    text-align: center;
+    text-indent: 5px;
+  }
+
+  .control {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: baseline;
+  }
+}
+
+.themeSizeRoot {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  padding: 8px 16px;
+  width: 300px;
+  margin-bottom: 12px;
+
+  .control {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+  }
+
+  .label {
+    font-size: 14px;
+    text-align: center;
+    text-indent: 5px;
+  }
+
+  .group {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    padding: 0;
+    margin: 0;
+
+
+  }
+
+  .radio {
+    border-radius: 5px;
+    background: #222;
+    width: 50px;
+    height: 21px;
+    padding: 0;
+    border: 1px solid red;
+  }
+
+  .icon {
+    width: 50px;
+    height: 21px;
+    border-radius: 5px;
+    background: #666;
+    padding: 0;
+  }
+
+  .icon_checked {
+    padding: 0;
+  }
+}
