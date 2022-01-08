@@ -93,7 +93,7 @@ const ReaderPagination = ({currentPage, totalPages, locked, onPageChange, loadCh
             <MediaQuery maxWidth={767}>
                 <IconButton
                     variant="outlined"
-                    color="black"
+                    color='linkSecondary'
                     size="large"
                     onClick={back}
                     disabled={(currentPage === 1 && !prevChapter) || locked}
@@ -109,7 +109,7 @@ const ReaderPagination = ({currentPage, totalPages, locked, onPageChange, loadCh
             <MediaQuery minWidth={768}>
                 <Button
                     variant="outlined"
-                    color="black"
+                    color='linkSecondary'
                     size="large"
                     startIcon={<KeyboardArrowLeft />}
                     sx={{textTransform: 'none'}}
@@ -136,7 +136,7 @@ const ReaderPagination = ({currentPage, totalPages, locked, onPageChange, loadCh
             <MediaQuery maxWidth={767}>
                 <IconButton
                     variant="outlined"
-                    color="black"
+                    color='linkSecondary'
                     size="large"
                     edge='end'
                     onClick={next}
@@ -152,7 +152,7 @@ const ReaderPagination = ({currentPage, totalPages, locked, onPageChange, loadCh
             <MediaQuery minWidth={768}>
                 <Button
                     variant="outlined"
-                    color="black"
+                    color='linkSecondary'
                     size="large"
                     endIcon={<KeyboardArrowRight />}
                     sx={{textTransform: 'none'}}

@@ -25,6 +25,10 @@ const theme = createTheme({
             default: '#333',
             defaultHover: '#212121'
         },
+        linkSecondary: {
+            main: '#0D0C21',
+            contrastText: '#eee',
+        },
         black: {
             main: '#0D0C21',
             contrastText: '#eee',

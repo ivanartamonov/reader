@@ -20,6 +20,10 @@ const theme = createTheme({
             default: '#777',
             defaultHover: '#fff'
         },
+        linkSecondary: {
+            main: '#fff',
+            contrastText: '#fff',
+        },
         primary: {
             main: '#9C1658',
             dark: '#82174B'
@@ -50,6 +54,19 @@ const theme = createTheme({
             variants: [
                 {
                     props: {variant: 'secondary'},
+                    style: {
+                        color: '#bbb',
+                        '&:hover': {
+                            color: '#ffffff'
+                        }
+                    }
+                },
+            ],
+        },
+        MuiButton: {
+            variants: [
+                {
+                    props: {variant: 'outlined'},
                     style: {
                         color: '#bbb',
                         '&:hover': {
