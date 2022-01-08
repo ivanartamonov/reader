@@ -25,7 +25,7 @@ const ToLibraryButton = ({isUserLoggedIn, inLibrary}) => {
             size="medium"
             color="inherit"
             aria-label="To library"
-            sx={{ ml: 1 }}
+            sx={{ ml: 'auto' }}
             onClick={() => handleClick(!isInLibrary)}
         >
             {

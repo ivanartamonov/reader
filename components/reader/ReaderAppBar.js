@@ -5,12 +5,14 @@ import {MoreVert} from "@mui/icons-material";
 import ToLibraryButton from "../ToLibraryButton";
 import TocPanel from "./TOCPanel";
 import ReaderSettingsDialog from "./ReaderSettingsDialog";
+import {useMediaQuery} from "react-responsive";
 
 const ReaderAppBar = ({user, readerData, book, toc, loadChapter, onTextSizeChange, settings}) => {
     const theme = useTheme();
+    const isMobile = useMediaQuery({ maxWidth: 767 });
 
     return (
-        <Box sx={{ flexGrow: 1}}>
+        <Box>
             <AppBar
                 position={"static"}
                 color={'white'}
@@ -31,9 +33,13 @@ const ReaderAppBar = ({user, readerData, book, toc, loadChapter, onTextSizeChang
                         <ArrowBackIcon />
                     </IconButton>
 
-                    <Typography variant="p" component="div" sx={{ flexGrow: 1 }}>
-                        {readerData.chapter.title}
-                    </Typography>
+                    {!isMobile
+                        ?
+                        <Typography variant="p" component="div">
+                            {readerData.chapter.title}
+                        </Typography>
+                        : ''
+                    }
 
                     <ToLibraryButton
                         isUserLoggedIn={user.isUserLoggedIn}
