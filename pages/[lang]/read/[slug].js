@@ -1,9 +1,9 @@
 import Head from 'next/head'
-import ReaderAppBar from "../../components/reader/ReaderAppBar";
-import Book from "../../models/Book";
-import ApiClient from "../../queries/client/ApiClient";
-import {CFG} from "../../queries/config";
-import ReaderText from "../../components/reader/ReaderText";
+import ReaderAppBar from "../../../components/reader/ReaderAppBar";
+import Book from "../../../models/Book";
+import ApiClient from "../../../queries/client/ApiClient";
+import {CFG} from "../../../queries/config";
+import ReaderText from "../../../components/reader/ReaderText";
 import {useState} from "react";
 
 export default function Reader({user, readerData: readerInfo, chapterText, book, toc}) {
