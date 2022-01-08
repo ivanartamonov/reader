@@ -1,12 +1,14 @@
 import React from 'react';
-import {AppBar, Box, IconButton, Toolbar, Typography} from "@mui/material";
+import {AppBar, Box, IconButton, Toolbar, Typography, useTheme} from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {MoreVert, Settings} from "@mui/icons-material";
+import {MoreVert} from "@mui/icons-material";
 import ToLibraryButton from "../ToLibraryButton";
 import TocPanel from "./TOCPanel";
 import ReaderSettingsDialog from "./ReaderSettingsDialog";
 
 const ReaderAppBar = ({user, readerData, book, toc, loadChapter, onTextSizeChange, settings}) => {
+    const theme = useTheme();
+
     return (
         <Box sx={{ flexGrow: 1}}>
             <AppBar
@@ -14,7 +16,8 @@ const ReaderAppBar = ({user, readerData, book, toc, loadChapter, onTextSizeChang
                 color={'white'}
                 sx={{
                     boxShadow: 'none',
-                    borderBottom: '1px solid #f1f1f1'
+                    borderBottom: '1px solid',
+                    borderColor: theme.palette.divider
                 }}>
                 <Toolbar>
                     <IconButton

@@ -23,16 +23,13 @@
         margin-right: 12px;
       }
     }
+
     .authorLink {
       font-size: 12px;
       line-height: 28px;
-      color: map-get($colors, 'brand');
       text-decoration: none;
-
-      &:hover {
-        color: map-get($colors, 'brandDark');
-      }
     }
+
     .bookTitle {
       font-size: 18px;
       line-height: 22px;
@@ -52,26 +49,16 @@
     }
   }
 
-
-
   .toc {
     .tocItem {
       a, span {
         display: block;
         padding: 7px 0;
         font-size: 14px;
-        color: map-get($colors, 'black2');
         text-decoration: none;
-        border-bottom: 1px solid map-get($colors, 'ultraLightGrey');
-      }
-
-      a:hover {
-        color: map-get($colors, 'brand');
       }
 
       span.current {
-        color: map-get($colors, 'brand');
-
         @media screen and (max-width: $deviceMobileSize) {
           padding-left: 20px;
         }
@@ -97,4 +84,3 @@
     }
   }
 }
-

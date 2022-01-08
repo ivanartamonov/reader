@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Box, Drawer, IconButton, List, ListItem, ListItemText} from "@mui/material";
+import {Box, Drawer, IconButton, Link, List, ListItem, ListItemText, useTheme} from "@mui/material";
 import {FormatListBulleted, Refresh} from "@mui/icons-material";
 import {useMediaQuery} from "react-responsive";
 import styles from './TOCPanel.module.scss';
@@ -7,6 +7,7 @@ import styles from './TOCPanel.module.scss';
 const TocPanel = ({book, currentChapterId, toc, loadChapter}) => {
     const [panelState, setPanelState] = useState(false);
     const isMobile = useMediaQuery({ maxWidth: 767 });
+    const theme = useTheme();
 
     const toggleDrawer = () => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -31,7 +32,7 @@ const TocPanel = ({book, currentChapterId, toc, loadChapter}) => {
                 src={book.coverUrl[isMobile ? 80 : 120]}
             />
             <div>
-                <a href={book.author.link} className={styles.authorLink}>{book.author.name}</a>
+                <Link href={book.author.link} className={styles.authorLink}>{book.author.name}</Link>
                 <h2 className={styles.bookTitle}>{book.title}</h2>
                 <div className={styles.bookStatus}>
                     <Refresh />
@@ -44,11 +45,30 @@ const TocPanel = ({book, currentChapterId, toc, loadChapter}) => {
     const tocItem = (chapter) => (
         <div className={styles.tocItem} key={chapter.id}>
             {currentChapterId === parseInt(chapter.id, 10)
-                ? (<span className={styles.current}>{chapter.title}</span>)
-                : (
-                    <a href={chapter.link} onClick={event => onSelectChapter(event, chapter.id)}>
+                ? (
+                    <span
+                        className={styles.current}
+                        style={{
+                            borderBottom: '1px solid',
+                            borderColor: theme.palette.divider,
+                            color: theme.palette.link.accent
+                        }}
+                    >
                         {chapter.title}
-                    </a>
+                    </span>
+                )
+                : (
+                    <Link
+                        href={chapter.link}
+                        onClick={event => onSelectChapter(event, chapter.id)}
+                        variant={'secondary'}
+                        style={{
+                            borderBottom: '1px solid',
+                            borderColor: theme.palette.divider
+                        }}
+                    >
+                        {chapter.title}
+                    </Link>
                 )
             }
         </div>
