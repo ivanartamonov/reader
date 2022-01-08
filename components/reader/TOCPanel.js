@@ -3,6 +3,7 @@ import {Box, Drawer, IconButton, Link, List, ListItem, ListItemText, useTheme} f
 import {FormatListBulleted, Refresh} from "@mui/icons-material";
 import {useMediaQuery} from "react-responsive";
 import styles from './TOCPanel.module.scss';
+import BookStatus from "../BookStatus";
 
 const TocPanel = ({book, currentChapterId, toc, loadChapter}) => {
     const [panelState, setPanelState] = useState(false);
@@ -34,10 +35,7 @@ const TocPanel = ({book, currentChapterId, toc, loadChapter}) => {
             <div>
                 <Link href={book.author.link} className={styles.authorLink}>{book.author.name}</Link>
                 <h2 className={styles.bookTitle}>{book.title}</h2>
-                <div className={styles.bookStatus}>
-                    <Refresh />
-                    {book.status.name}, {book.paperPages} стр.
-                </div>
+                <BookStatus book={book} />
             </div>
         </div>
     );
