@@ -44,6 +44,7 @@ const ReaderAppBar = ({user, readerData, book, toc, loadChapter, onTextSizeChang
                     <ToLibraryButton
                         isUserLoggedIn={user.isUserLoggedIn}
                         inLibrary={readerData.isInLibrary}
+                        bookId={book.id}
                     />
 
                     <TocPanel

@@ -14,6 +14,8 @@ export default function Reader({user, readerData: readerInfo, chapterText, book,
     const [nextChapter, setNextChapter] = useState(defineNextChapterId(readerInfo.chapter.id, toc));
     const [settings, setSettings] = useState({fontSize: 18});
 
+    ApiClient._jwt = user.jwt;
+
     const getText = async (chapterId, page) => {
         return await ApiClient.call(`${CFG.BASE_API_URL}read/${chapterId}?page=${page}`);
     }
