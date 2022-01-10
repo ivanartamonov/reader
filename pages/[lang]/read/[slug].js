@@ -5,7 +5,6 @@ import ApiClient from "../../../queries/client/ApiClient";
 import {CFG} from "../../../queries/config";
 import ReaderText from "../../../components/reader/ReaderText";
 import {useContext, useState} from "react";
-import {useTheme} from "@mui/material";
 import {ThemeContext} from "../../../components/ThemeProvider";
 
 export default function Reader({user, readerData: readerInfo, chapterText, book, toc}) {
