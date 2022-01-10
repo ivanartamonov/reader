@@ -4,7 +4,9 @@ import Book from "../../../models/Book";
 import ApiClient from "../../../queries/client/ApiClient";
 import {CFG} from "../../../queries/config";
 import ReaderText from "../../../components/reader/ReaderText";
-import {useState} from "react";
+import {useContext, useState} from "react";
+import {useTheme} from "@mui/material";
+import {ThemeContext} from "../../../components/ThemeProvider";
 
 export default function Reader({user, readerData: readerInfo, chapterText, book, toc}) {
     const [readerData, setReaderData] = useState(readerInfo);
@@ -13,6 +15,7 @@ export default function Reader({user, readerData: readerInfo, chapterText, book,
     const [prevChapter, setPrevChapter] = useState(definePrevChapterId(readerInfo.chapter.id, toc));
     const [nextChapter, setNextChapter] = useState(defineNextChapterId(readerInfo.chapter.id, toc));
     const [settings, setSettings] = useState({fontSize: 18});
+    const {themeName} = useContext(ThemeContext);
 
     ApiClient._jwt = user.jwt;
 
@@ -69,6 +72,7 @@ export default function Reader({user, readerData: readerInfo, chapterText, book,
             <Head>
                 <title>Reader</title>
                 <link rel="icon" href="/favicon.ico" />
+                <meta name="theme-color" content={themeName === 'DEFAULT' ? '#fff' : '#222'} />
             </Head>
 
             <main>
