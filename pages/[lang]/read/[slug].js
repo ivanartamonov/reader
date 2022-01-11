@@ -173,7 +173,11 @@ function extractQueryParams(context) {
 }
 
 function defineUser(context)  {
-    const cookie = context.req ? context.req.headers.cookie : null;
+    // Works on localhost
+    return {"user":{"id":5,"name":"Ivan Artamonov","is_registered":1,"is_active":1,"avatar":"/uploads/user_avatars_new/160/1507201969_5.jpg"},"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImp0aSI6InRWUVFlZDVlNDdJOG15bEJNbTVoIn0.eyJpc3MiOiIiLCJhdWQiOiIiLCJqdGkiOiJ0VlFRZWQ1ZTQ3SThteWxCTW01aCIsImlhdCI6MTY0MTkzNDQ4NSwiZXhwIjoxNjQxOTM0Nzg1LCJ1aWQiOjV9.ufo2wDxUX2dIrnZg8GFfzCtsDbRdQ1sS2SnfH9Kn6So"};
+
+    // Works only on domain: dev.litnet.com
+    /*const cookie = context.req ? context.req.headers.cookie : null;
 
     if (cookie) {
         return fetch(`${CFG.BASE_WEB_URL}auth/front`, {
@@ -184,6 +188,7 @@ function defineUser(context)  {
     }
 
     return null;
+    */
 }
 
 function fetchBook(bookId, withFirstChapter)  {
